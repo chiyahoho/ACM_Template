@@ -1,0 +1,55 @@
+矩阵加法：c[i,j]:=a[i,j]+b[i,j]
+
+矩阵乘法：
+
+1.行列数:
+  设a:n*r; (n行r列) b:r*m 的矩阵 则 c=a*b=n*m; 
+  j：拼掉中间的r
+
+2.c 的值:
+  c[i,j]:=∑a[i,k]*b[k,j]    即  for k:=1 to r do inc(c[i,j],a[i,k]*b[k,j])
+  j：c[i,j]就是 a的i行*b的j列
+
+3.求c值的代码:
+function mul(a,b:matrix;n,r,m:integer):matrix;
+var c:matrix; 
+    i,j,k:longint; 
+begin 
+  fillchar(c,sizeof(c),0); 
+  for i:=1 to n do 
+    for j:=1 to m do 
+      for k:=1 to r do 
+        inc(c[i,j],a[i,k]*b[k,j])
+  mul:=c; 
+end;
+
+4.运算法则：
+  矩阵乘法满足结合律，不满足交换律
+
+5.二分快速幂
+  *矩阵乘法不用二分快速幂就毫无意义,使用矩阵乘法的目的就是快速幂加速到log(n)
+  *只有方阵才能快速幂，所以做题时要构造方阵
+  代码模仿快速幂方法一:
+  function qp(a:matrix;n,b:int64):matrix;
+  var k:matrix;
+  begin
+    dec(b);
+    k:=a; qp:=a;
+    while b>0 do begin
+      if b and 1=1 then qp:=mul(qp,k,n,n,n);
+      k:=mul(k,k,n,n,n);
+      b:=b>>1;
+    end;
+  end.
+
+  模仿快速幂方法二:
+  function mpower(a:matrix;n,r,m,x:longint):matrix;
+  var c:matrix; 
+  begin 
+    if x=1 then exit(a); 
+    c:=mpower(a,n,r,m,x>>1); 
+    c:=mul(c,c,n,r,m); 
+    if x and 1=1; then mpower:=mul(c,a,n,r,m) 
+    else exit(c); 
+  end; 
+  *一的方法更好，不用多开矩阵，且 b:=b>>1，b可以用高精，二不能做很大的n次方。

@@ -1,0 +1,131 @@
+我们只考虑点与向量的运算，线等用参数方程代替。优越性在于不必考虑斜率问题。
+
+向量的产生：
+有2个点A(x1,y1),B(x2,y2),则向量A→B=(x2-x1,y2-y1)
+
+直线的表示：
+直线用一个线上的点P与一个线上的向量a表示，参数方程：(x,y)=P+t·a  （t∈R）
+射线或线段只需限制t的范围即可。
+
+向量的运算：
+【模长】：|x,y|=sqrt(x^2+y^2)
+
+【加】：(x1,y1)+(x2,y2)=(x1+x2,y1,y2)
+
+【减】：(x1,y1)-(x2,y2)=(x1-x2,y1-y2)
+
+【数乘】：t*(x,y)=(tx,ty)
+
+【点积】：(x1,y1)·(x2,y2) = x1x2+y1y2 = |x1,y1||x2,y2|cosθ
+    作用1：判断a是否在b的左右180°内，若是则值>0
+    作用2：判断a,b是否垂直，若是则值=0
+    作用3：【投影】设a在b上的投影为a'，则a'=(b/|b|)*(a·b/|b|)
+
+【叉积】：(x1,y1)×(x2,y2) = |x1 y1| = x1y2-x2y1 = |x1,y1||x2,y2|sinθ
+                             |x2 y2|
+
+    作用1：判断a,b是否平行，若是则值=0
+    作用2：计算面积。得到的值为a,b构成平行四边形的面积，亦为a,b构成三角形的面积的2倍。这里的面积都为有向面积，方向根据右手螺旋判定，a×b=k，若k>0则a→b逆时针，否则顺时针（从小于180的那个角转）。
+    作用2的延伸：判断a是否在b的左边或右边。
+
+【三维叉积】：(x1,y1,z1)×(x2,y2,z2)=(y1z2-y2z1,z1x2-z2x1,x1y2-x2y1)
+    作用1：得到一个新向量c。a×b的方向遵循右手螺旋定则，从a转到b(<180)，大拇指的方向即为c的方向，同时与a,b垂直。
+    作用2：c的重要性质是垂直ab平面，建系，求法向量什么的都很有用。
+    作用3：判断a,b是否平行，若是则c的模长=0
+    作用4：计算面积。|c|为a,b构成平行四边形的面积，亦为a,b构成三角形的面积的2倍。
+
+【旋转】：
+    将(x,y)逆时针旋转k°到(x',y')
+    x'=x*cosk-y*sink
+    y'=x*sink+y*cosk
+    作用举例：重建坐标系
+    有一个平面ax+by+cz=0，想要以该平面为xOy面重构坐标系。则(a,b,c)为法向量。
+    先绕z轴把法向量转到yOz上，即在xOy平面上把(a,b)转到(0,sqrt(a^2+b^2)),则cosk=b/sqrt(a^2+b^2),每个点都用这个转一下，这对四个象限都有效请放心使用。然后法向量变成了(0,sqrt(a^2+b^2),c)，绕x轴再来一遍即可。
+
+【三维绕轴旋转】
+绕(0,0,0)-(a,b,c)逆时针旋转k°
+[x',y',z',1]=[x,y,z,1]*
+[a*a*(1-ck)+ck, a*b*(1-ck)+c*sk, a*c*(1-ck)-b*sk, 0,
+ a*b*(1-ck)-c*sk, b*b*(1-ck)+ck, b*c*(1-ck)+a*sk, 0,
+ a*c*(1-ck)+b*sk, b*c*(1-ck)-a*sk, c*c*(1-ck)+ck, 0,
+ 0, 0, 0, 1]
+ 
+【求直线交点】
+    求直线line1[A(点)、a(向量)]，line2[P、b]的交点。
+    设方程A+a·t1=P+b·t2=交点D
+    设B(点)=A+a,Q=P+b
+    则t1=[ (Px-Ax)·(Qy-Py)-(Py-Ay)·(Qx-Px) ] / [ (Bx-Ax)·(Qy-Py)-(By-Ay)·(Qx-Px) ]
+    =cross(A,P,P,Q) / cross(A,B,P,Q)
+    代入A+a·t1即得D。
+    注意！在做这些操作之前先判断是否平行，若平行无交点会被零除！！
+
+【二维化】
+    在三维中若某些操作在一个平面内，而空间中不好想象，就把它摊到平面上，搞完了弄回到三维中去。
+
+
+【未整理部分】
+若 P × Q > 0 , 则P在Q的顺时针方向。 
+若 P × Q < 0 , 则P在Q的逆时针方向。 
+若 P × Q = 0 , 则P与Q共线，但可能同向也可能反向。
+
+直线用两点存，可以小过程造向量
+
+判断点P在AB上：PA×PB=0且P在AB为对角顶点的矩阵内。
+注意x,y都要判，理由是水平或垂直。
+
+判断点P在多边形内：
+从P点水平向左射出一条线，枚举每条边，判断与多边形交点个数，若为奇数在多边形内，偶数在外。
+为特殊情况制定规则：
+1.水平边不考虑。
+2.若交于某边顶点，且另一点在上方，计数。
+3.若交于某边顶点，且另一点在下方，不计数。
+伪代码如下：
+ count ← 0; 
+以P为端点，作从右向左的射线L;
+for 多边形的每条边s do 
+if P在边s上then return true; 
+if s不是水平的then 
+if s的一个端点在L上
+if 该端点是s两端点中纵坐标较大的端点
+then count ← count+1
+ else if s和L相交then count ← count+1; 
+if count mod 2 = 1 then return true;
+ else return false; 
+其中做射线L的方法是：设P'的纵坐标和P相同，横坐标为正无穷大（很大的一个正数），则P和P'就确定了射线L。 
+判断点是否在多边形中的这个算法的时间复杂度为O(n)。
+
+判断线段是否在多边形内：
+在多边形内必须满足：
+1.两个点在多边形内
+2.线段与每条l的交点必须是线段或l的端点上
+3.给交点们排序，每相邻两点间的线段的中点在多边形内
+由于交点不会很多，所以还是O(n)的。
+
+点P到直线的距离：
+直线上一点A,垂足P',l1=AP,l2=AP'
+叉积法：abs(x1y2-x2y1)/sqrt(x2*x2+y2*y2)
+点积法：sqrt( (x1*x1+y1*y1) - sqr(x1y1+x2y2)/(x2*x2+y2*y2) )
+
+点P到直线的垂足：
+P点+line的向量，旋转90°，做交点。
+
+const double eps = 1e-8;
+int dcmp(double c) {
+    return c < -eps ? -1 : c > eps;
+}
+struct Point {
+    double x,y;
+    Point () {}
+    Point (double x, double y) : x(x), y(y) {}
+    Point operator + (const Point &a)const{ return Point(x+a.x,y+a.y); }
+    double len() { return sqrt(x * x + y * y); }
+    double len2() { return x * x + y * y; }
+    void read() { scanf("%lf%lf", &x, &y); }
+};
+inline Point operator - (Point a, Point b) { return Point(a.x - b.x, a.y - b.y); }
+inline Point operator + (Point a, Point b) { return Point(a.x + b.x, a.y + b.y); }
+inline Point operator * (Point a, double b) { return Point(a.x * b, a.y * b); }
+inline Point operator / (Point a, double b) { return Point(a.x / b, a.y / b); }
+inline double operator % (Point a, Point b) { return (a.x * b.x + a.y * b.y); }
+inline double operator * (Point a, Point b) { return a.x * b.y - a.y * b.x; }
+inline double xmul(Point a, Point b, Point c) { return (b - a) * (c - a); }

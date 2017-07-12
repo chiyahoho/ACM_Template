@@ -1,0 +1,10 @@
+./make
+./pro
+./std
+while diff pro.out std.out; do
+echo "AC"
+./make
+./pro
+./std
+done
+echo "WA"

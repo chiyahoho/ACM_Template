@@ -1,0 +1,12 @@
+Procedure Solve(l, r)
+If l = r
+  Then更新ans，利用已经计算好的l的最优决策k，计算f [l]值，Exit
+Mid ← (l + r) / 2
+Solve(l, mid -1)
+  对[l, mid-1]这一段扫描一遍计算出决策的凸线，由于[mid+1 .. r]这一段以
+-a[i] / b[i]的排序在预处理已经完成，因此只需要扫描一遍更新[mid + 1 .. r]
+的最优决策．
+Solve(mid+1, r)
+  利用[l, mid-1]已排好序的f []值和[mid+1, r]已排好序的f []值归并排序将
+[l, r]这一段按f[]值排序．　
+  End Procedure
