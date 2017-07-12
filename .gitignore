@@ -222,3 +222,6 @@ TSWLatexianTemp*
 # Useless Code
 aa.pas
 aa.txt
+
+# macOS
+.DS_Store
