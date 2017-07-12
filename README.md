@@ -1,2 +1,2 @@
-# ACM_Template
-Algorithm Template in C++ for ACM-ICPC
+template.pdf是自己的，tdy.pdf是帮队友整理的。
+随意取用，开头有目录，code里有一些没包进pdf的代码。大部分是C++的，小部分是打OI不会C时用Pascal写的……基本是长长的数据结构，在icpc里没怎么见到，大不了现场翻译，就没转C++了。其实我的模板写的还是挺短小精悍的……
